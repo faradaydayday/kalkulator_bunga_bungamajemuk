@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bunga Calculator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+      }
+
+      form {
+        width: 50%;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      input[type="number"] {
+        width: 100%;
+        height: 40px;
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        width: 100%;
+        height: 40px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #444;
+      }
+
+      #hasil {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Bunga Calculator</h1>
+    </header>
+    <main>
+      <form id="bunga-form">
+        <label for="jumlah">Jumlah:</label>
+        <input type="number" id="jumlah" required />
+        <br />
+        <label for="bunga">Bunga:</label>
+        <input type="number" id="bunga" required />
+        <br />
+        <label for="bulan">Bulan:</label>
+        <input type="number" id="bulan" required />
+        <br />
+        <label for="mata-uang">Mata Uang:</label>
+        <select id="mata-uang">
+          <option value="IDR">IDR (Indonesian Rupiah)</option>
+          <option value="USD">USD (United States Dollar)</option>
+        </select>
+        <br />
+        <button id="hitung-btn">Hitung</button>
+      </form>
+      <div id="hasil"></div>
+    </main>
+    <script>
+      const form = document.getElementById("bunga-form");
+      const jumlahInput = document.getElementById("jumlah");
+      const bungaInput = document.getElementById("bunga");
+      const bulanInput = document.getElementById("bulan");
+      const mataUangSelect = document.getElementById("mata-uang");
+      const hitungBtn = document.getElementById("hitung-btn");
+      const hasilDiv = document.getElementById("hasil");
+
+      hitungBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const jumlah = parseFloat(jumlahInput.value);
+        const bunga = parseFloat(bungaInput.value);
+        const bulan = parseInt(bulanInput.value);
+        const mataUang = mataUangSelect.value;
+        const bungaPerbulan = (jumlah * bunga) / 100;
+        const bungaPertahun = bungaPerbulan * 12;
+
+        let hasil;
+        if (mataUang === "IDR") {
+          hasil = `Bunga perbulan: Rp ${bungaPerbulan.toFixed(
+            2
+          )}<br>Bunga pertahun: Rp ${bungaPertahun.toFixed(2)}`;
+        } else if (mataUang === "USD") {
+          const exchangeRate = 14000; // exchange rate IDR to USD
+          const bungaPerbulanUSD = bungaPerbulan / exchangeRate;
+          const bungaPertahunUSD = bungaPertahun / exchangeRate;
+          hasil = `Bunga perbulan: $ ${bungaPerbulanUSD.toFixed(
+            2
+          )}<br>Bunga pertahun: $ ${bungaPertahunUSD.toFixed(2)}`;
+        }
+
+        hasilDiv.innerHTML = hasil;
+      });
+    </script>
+  </body>
+</html>
